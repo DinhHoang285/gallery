@@ -23,7 +23,7 @@ const ModalLogin = ({ isOpen, onCancel }: Props) => {
       centered
       className={styles.modalCustom}
     >
-      <FormLogin />
+      <FormLogin changePage={() => { console.log('changePage') }} />
     </Modal>
   );
 };
