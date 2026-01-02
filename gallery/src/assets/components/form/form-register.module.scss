@@ -1,0 +1,113 @@
+.formRegister {
+  background: white;
+  padding: 30px 40px;
+  border-radius: 32px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+
+  .logoWrapper {
+    margin-bottom: 10px;
+  }
+
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0;
+  }
+
+  .subtitle {
+    color: #666;
+    margin-bottom: 25px;
+  }
+
+  // :global {
+  //   .ant-form-item-label>label {
+  //     font-weight: 500;
+  //     font-size: 14px;
+  //   }
+
+  //   .ant-input,
+  //   .ant-input-password,
+  //   .ant-picker {
+  //     border-radius: 16px !important;
+  //     padding: 8px 16px;
+  //     border: 2px solid #ddd;
+
+  //     &:hover,
+  //     &:focus {
+  //       border-color: #767676;
+  //     }
+  //   }
+  // }
+
+  .hintText {
+    font-size: 12px;
+    color: #767676;
+    text-align: left;
+    margin: -15px 0 15px 5px;
+  }
+
+  .continueButton {
+    background-color: #e60023 !important; // Màu đỏ Pinterest
+    border: none;
+    height: 45px;
+    border-radius: 24px !important;
+    font-weight: 600;
+    margin-top: 10px;
+
+    &:hover {
+      background-color: #ad081b !important;
+    }
+  }
+
+  .divider {
+    font-weight: bold;
+    margin: 15px 0;
+    font-size: 12px;
+  }
+
+  .googleButton {
+    height: 45px;
+    border-radius: 24px !important;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ddd;
+  }
+
+  .termsText {
+    font-size: 11px;
+    color: #767676;
+    margin-top: 15px;
+
+    a {
+      color: #333;
+      font-weight: bold;
+    }
+  }
+
+  .footerLink {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 500;
+
+    a {
+      color: #333;
+      font-weight: bold;
+    }
+  }
+
+  .businessFooter {
+    margin-top: 30px;
+    padding-top: 15px;
+    border-top: 1px solid #eee;
+    font-weight: 600;
+
+    a {
+      color: #333;
+    }
+  }
+}

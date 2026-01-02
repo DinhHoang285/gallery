@@ -1,0 +1,36 @@
+.title {
+  text-align: center;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding-bottom: 10px;
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.loginButton {
+  background-color: #000 !important;
+  border-radius: 4px;
+  height: 45px;
+  font-weight: 600;
+
+  &:hover {
+    background-color: #333 !important;
+  }
+}
+
+.footerText {
+  text-align: center;
+  color: #666;
+}
+
+// Tùy chỉnh bo góc Modal của Antd
+.modalCustom {
+  :global(.ant-modal-content) {
+    border-radius: 12px;
+    padding: 30px 20px;
+  }
+}
