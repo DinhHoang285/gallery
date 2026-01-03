@@ -4,6 +4,7 @@ import "./globals.scss";
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { Toaster } from 'react-hot-toast';
 import MainLayoutProvider from '@/assets/providers/main-layout.provider';
+import UserProvider from '@/assets/providers/user.provider';
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +30,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <AntdRegistry>
-          <MainLayoutProvider>
-            {children}
-          </MainLayoutProvider>
+          <UserProvider>
+            <MainLayoutProvider>
+              {children}
+            </MainLayoutProvider>
+          </UserProvider>
           <Toaster position="top-right" />
         </AntdRegistry>
       </body>

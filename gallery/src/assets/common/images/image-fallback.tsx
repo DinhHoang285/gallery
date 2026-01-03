@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { shimmer, toBase64 } from '@lib/file';
+import { shimmer, toBase64 } from '@/assets/lib/file';
+
 
 interface IProps {
   options?: any;

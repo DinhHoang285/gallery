@@ -7,57 +7,96 @@ import {
   useReducer
 } from 'react';
 
-interface IMainLayoutContext {
+// Define all state properties here - easy to extend
+interface IMainLayoutState {
   modal: 'login' | 'register' | null;
-  setModal: (modal: 'login' | 'register' | null) => void;
+  // Add more state properties as needed:
+  // sidebarOpen?: boolean;
+  // theme?: 'light' | 'dark';
+  // notifications?: number;
+}
+
+interface IMainLayoutContext extends IMainLayoutState {
+  // Generic setState function - can update any state key
+  setState: <K extends keyof IMainLayoutState>(
+    key: K,
+    value: IMainLayoutState[K]
+  ) => void;
+  // Batch update multiple keys at once
+  setStateBatch: (updates: Partial<IMainLayoutState>) => void;
 }
 
 interface Action {
-  type: string;
+  type: 'SET_STATE' | 'SET_STATE_BATCH';
   payload?: any;
 }
 
-const MainLayoutContext = createContext({
+const initialState: IMainLayoutState = {
   modal: null,
-  setModal: () => { },
+};
+
+const MainLayoutContext = createContext<IMainLayoutContext>({
+  ...initialState,
+  setState: () => { },
+  setStateBatch: () => { },
 });
 
-const initializer = {
-  modal: null,
-  setModal: () => { },
-}
-
-const reducers = (state: typeof initializer, action: Action) => {
+const reducers = (state: IMainLayoutState, action: Action): IMainLayoutState => {
   switch (action.type) {
-    case 'setModal': {
+    case 'SET_STATE': {
+      const { key, value } = action.payload;
       return {
         ...state,
-        modal: action.payload.modal
+        [key]: value
       };
     }
+    case 'SET_STATE_BATCH': {
+      return {
+        ...state,
+        ...action.payload
+      };
+    }
+    default:
+      return state;
   }
-}
+};
 
 export default function MainLayoutProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(reducers as any, initializer) as any;
-  const setModal = useCallback((data: 'login' | 'register') => dispatch({ type: 'setModal', payload: data }), [dispatch]);
+  const [state, dispatch] = useReducer(reducers, initialState);
 
-  const themeValue = useMemo<IMainLayoutContext>(
+  // Generic setState function - can set any state key
+  const setState = useCallback(<K extends keyof IMainLayoutState>(
+    key: K,
+    value: IMainLayoutState[K]
+  ) => {
+    dispatch({
+      type: 'SET_STATE',
+      payload: { key, value }
+    });
+  }, []);
+
+  // Batch update multiple state keys at once
+  const setStateBatch = useCallback((updates: Partial<IMainLayoutState>) => {
+    dispatch({
+      type: 'SET_STATE_BATCH',
+      payload: updates
+    });
+  }, []);
+
+  const contextValue = useMemo<IMainLayoutContext>(
     () => ({
-      setModal,
-      ...state
+      ...state,
+      setState,
+      setStateBatch,
     }),
-    [
-      setModal,
-      state
-    ]
+    [state, setState, setStateBatch]
   );
 
   return (
-    <MainLayoutContext.Provider value={themeValue as unknown as any}>
+    <MainLayoutContext.Provider value={contextValue}>
       {children}
     </MainLayoutContext.Provider>
-  )
+  );
 }
 
 export const useMainThemeLayout = () => useContext(MainLayoutContext);

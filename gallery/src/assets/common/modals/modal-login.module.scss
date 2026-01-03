@@ -27,10 +27,16 @@
   color: #666;
 }
 
-// Tùy chỉnh bo góc Modal của Antd
+
 .modalCustom {
   :global(.ant-modal-content) {
     border-radius: 12px;
     padding: 30px 20px;
+  }
+
+  :global(.ant-modal-body) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }

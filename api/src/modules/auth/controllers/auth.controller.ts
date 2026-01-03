@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Post,
   Request,
   UseGuards,
@@ -44,5 +45,18 @@ export class AuthController {
     const userId = req.user._id.toString();
     await this.authService.logoutAll(userId);
     return { message: 'Đã đăng xuất tất cả các thiết bị' };
+  }
+
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  async getCurrentUser(@Request() req: any) {
+    // Trả về thông tin user hiện tại từ request (đã được authenticate bởi JwtAuthGuard)
+    const user = req.user;
+    return {
+      id: user._id,
+      email: user.email,
+      name: user.name,
+      birthdate: user.birthdate,
+    };
   }
 }

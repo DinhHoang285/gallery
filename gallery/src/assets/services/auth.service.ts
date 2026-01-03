@@ -87,6 +87,20 @@ class AuthService extends APIRequest {
   getToken(): string | undefined {
     return cookie.get(TOKEN);
   }
+
+  async getCurrentUser(): Promise<{
+    id: string;
+    email: string;
+    name?: string;
+    birthdate?: string;
+  }> {
+    try {
+      const response = await this.get('/auth/me');
+      return response;
+    } catch (error: any) {
+      throw error;
+    }
+  }
 }
 
 export const authService = new AuthService();

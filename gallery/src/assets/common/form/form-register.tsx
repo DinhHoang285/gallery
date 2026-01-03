@@ -6,13 +6,15 @@ import Image from 'next/image';
 import { authService } from '@/assets/services';
 import { showError, showSuccess } from '@/assets/lib/message';
 import { useRouter } from 'next/navigation';
+import { useUser } from '@/assets/providers/user.provider';
 
 interface IProps {
-  changePage: (page: 'login' | 'register') => void;
+  changePage?: (page: 'login' | 'register') => void;
 }
-const FormRegister = ({ changePage }: IProps) => {
+const FormRegister = ({ changePage = () => { } }: IProps) => {
   const [form] = Form.useForm();
   const router = useRouter();
+  const { refreshUser } = useUser();
 
   const onFinish = async (values: any) => {
     console.log('Register values:', values);
@@ -23,7 +25,9 @@ const FormRegister = ({ changePage }: IProps) => {
     try {
       const resp = await authService.register(submitData);
       showSuccess(resp.message);
-      changePage('login')
+      // Refresh user data after registration
+      await refreshUser();
+      changePage('login');
     } catch (error: any) {
       const errorMessage = error?.message || error?.response?.data?.message || 'Registration failed';
       showError(errorMessage);
@@ -114,7 +118,11 @@ const FormRegister = ({ changePage }: IProps) => {
         </p>
 
         <div className={styles.footerLink}>
-          Already a member? <span onClick={() => changePage('login')}>Log in</span>
+          Already a member? <span onClick={() => {
+            if (changePage) {
+              changePage('login')
+            }
+          }}>Log in</span>
         </div>
       </Form>
 
