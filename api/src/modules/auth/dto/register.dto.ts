@@ -4,6 +4,8 @@ import {
   IsString,
   MinLength,
   Matches,
+  IsDateString,
+  IsOptional,
 } from 'class-validator';
 
 export class RegisterDto {
@@ -13,18 +15,23 @@ export class RegisterDto {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(8, { message: 'Mật khẩu phải có ít nhất 8 ký tự' })
+  @MinLength(8, { message: 'Password must be at least 8 characters long' })
   @Matches(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
     {
       message:
-        'Mật khẩu phải chứa ít nhất 1 chữ hoa, 1 chữ thường, 1 số và 1 ký tự đặc biệt',
+        'Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character',
     },
   )
   password: string;
 
   @IsString()
-  name?: string;
+  @IsOptional()
+  username?: string;
+
+  @IsDateString()
+  @IsNotEmpty()
+  birthdate: string;
 }
 
 

@@ -1,15 +1,26 @@
 import { Button, Checkbox, Form, Input } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import styles from './form-login.module.scss';
+import { showError, showSuccess } from '@/assets/lib/message';
+import { authService } from '@/assets/services';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
   changePage: (page: 'login' | 'register') => void;
 }
 const FormLogin = ({ changePage }: IProps) => {
   const [form] = Form.useForm();
+  const router = useRouter();
+  const onFinish = async (values: any) => {
+    try {
+      const resp = await authService.login(values);
+      console.log('resp', resp);
 
-  const onFinish = (values: any) => {
-    console.log('Success:', values);
+      // showSuccess(resp.message);
+      // router.push('/home');
+    } catch (error: any) {
+      showError(error?.message || error?.response?.data?.message || 'Login failed');
+    }
   };
   return (
     <div className={styles.formLogin}>
@@ -37,9 +48,9 @@ const FormLogin = ({ changePage }: IProps) => {
         </Form.Item>
 
         <div className={styles.options}>
-          <Form.Item name="remember" valuePropName="checked" noStyle>
+          {/* <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
-          </Form.Item>
+          </Form.Item> */}
           <a href="/forgot-password" className={styles.forgotLink}>Forgot password?</a>
         </div>
 

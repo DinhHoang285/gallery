@@ -25,16 +25,13 @@ export class AuthService {
   ) { }
 
   async register(registerDto: RegisterDto) {
-    const { email, password, name } = registerDto;
+    const { email, password, username, birthdate } = registerDto;
 
-    // Kiểm tra email đã tồn tại chưa
     const existingUser = await this.userModel.findOne({ email });
     if (existingUser) {
-      throw new ConflictException('Email đã được sử dụng');
+      throw new ConflictException('Email already in use');
     }
 
-    // Hash password với salt rounds cao hơn để tăng bảo mật
-    // Salt rounds 12 là mức cân bằng tốt giữa bảo mật và hiệu suất
     const saltRounds = 12;
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
@@ -42,7 +39,8 @@ export class AuthService {
     const user = await this.userModel.create({
       email,
       password: hashedPassword,
-      name: name || email.split('@')[0],
+      username: username || email.split('@')[0],
+      birthdate: birthdate ? new Date(birthdate) : undefined,
     });
 
     // Tạo JWT token
@@ -61,29 +59,29 @@ export class AuthService {
     });
 
     return {
-      message: 'Đăng ký thành công',
+      message: 'Registration successful',
       token,
       user: {
         id: user._id,
         email: user.email,
-        name: user.name,
+        name: user.username,
       },
     };
   }
 
   async login(loginDto: LoginDto) {
-    const { email, password } = loginDto;
+    const { username, password } = loginDto;
 
     // Tìm user theo email và select password (vì password có select: false trong schema)
-    const user = await this.userModel.findOne({ email }).select('+password');
+    const user = await this.userModel.findOne({ username }).select('+password');
     if (!user) {
-      throw new UnauthorizedException('Email hoặc mật khẩu không đúng');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     // Kiểm tra password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Email hoặc mật khẩu không đúng');
+      throw new UnauthorizedException('Invalid email or password');
     }
 
     // Tạo JWT token
@@ -102,22 +100,19 @@ export class AuthService {
     });
 
     return {
-      message: 'Đăng nhập thành công',
+      message: 'Login successful',
       token,
       user: {
         id: user._id,
         email: user.email,
-        name: user.name,
+        name: user.username,
       },
     };
   }
 
   async validateSession(token: string): Promise<UserDocument | null> {
     try {
-      // Verify JWT token
       const payload = this.jwtService.verify(token);
-
-      // Kiểm tra session trong database
       const session = await this.authSessionModel.findOne({
         token,
         isActive: true,
@@ -128,7 +123,6 @@ export class AuthService {
         return null;
       }
 
-      // Lấy thông tin user
       const user = await this.userModel.findById(payload.sub);
       return user;
     } catch (error) {
@@ -137,7 +131,6 @@ export class AuthService {
   }
 
   async logout(token: string): Promise<void> {
-    // Vô hiệu hóa session
     await this.authSessionModel.updateOne(
       { token },
       { isActive: false },
@@ -145,7 +138,6 @@ export class AuthService {
   }
 
   async logoutAll(userId: string): Promise<void> {
-    // Vô hiệu hóa tất cả sessions của user
     await this.authSessionModel.updateMany(
       { userId, isActive: true },
       { isActive: false },

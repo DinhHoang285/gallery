@@ -3,15 +3,31 @@ import { Button, Form, Input, DatePicker } from 'antd';
 import { QuestionCircleOutlined, GoogleOutlined } from '@ant-design/icons';
 import styles from './form-register.module.scss';
 import Image from 'next/image';
+import { authService } from '@/assets/services';
+import { showError, showSuccess } from '@/assets/lib/message';
+import { useRouter } from 'next/navigation';
 
 interface IProps {
   changePage: (page: 'login' | 'register') => void;
 }
 const FormRegister = ({ changePage }: IProps) => {
   const [form] = Form.useForm();
+  const router = useRouter();
 
-  const onFinish = (values: any) => {
+  const onFinish = async (values: any) => {
     console.log('Register values:', values);
+    const submitData = {
+      ...values,
+      birthdate: values.birthdate ? values.birthdate.toISOString() : undefined,
+    };
+    try {
+      const resp = await authService.register(submitData);
+      showSuccess(resp.message);
+      changePage('login')
+    } catch (error: any) {
+      const errorMessage = error?.message || error?.response?.data?.message || 'Registration failed';
+      showError(errorMessage);
+    }
   };
 
   return (
@@ -26,8 +42,8 @@ const FormRegister = ({ changePage }: IProps) => {
         /> */}
       </div>
 
-      <h1 className={styles.title}>Welcome to Pinterest</h1>
-      <p className={styles.subtitle}>Find new ideas to try</p>
+      <h1 className={styles.title}>Welcome to Gallery</h1>
+      <p className={styles.subtitle}>Find new photos to try</p>
 
       <Form
         form={form}
@@ -37,6 +53,14 @@ const FormRegister = ({ changePage }: IProps) => {
         size="large"
         requiredMark={false}
       >
+        <Form.Item
+          label="Username"
+          name="username"
+          rules={[{ required: true, message: 'Please input your username!' }]}
+        >
+          <Input placeholder="username" />
+        </Form.Item>
+
         <Form.Item
           label="Email"
           name="email"
