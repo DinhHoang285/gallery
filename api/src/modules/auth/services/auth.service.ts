@@ -70,10 +70,10 @@ export class AuthService {
   }
 
   async login(loginDto: LoginDto) {
-    const { username, password } = loginDto;
+    const { email, password } = loginDto;
 
     // Tìm user theo email và select password (vì password có select: false trong schema)
-    const user = await this.userModel.findOne({ username }).select('+password');
+    const user = await this.userModel.findOne({ email }).select('+password');
     if (!user) {
       throw new UnauthorizedException('Invalid email or password');
     }

@@ -15,11 +15,12 @@ const FormLogin = ({ changePage }: IProps) => {
     try {
       const resp = await authService.login(values);
       console.log('resp', resp);
-
-      // showSuccess(resp.message);
-      // router.push('/home');
+      showSuccess(resp.message);
+      router.push('/home');
     } catch (error: any) {
-      showError(error?.message || error?.response?.data?.message || 'Login failed');
+      console.log('Login error:', error);
+      const errorMessage = error?.message || error?.response?.data?.message || 'Login failed';
+      showError(errorMessage);
     }
   };
   return (
@@ -34,10 +35,13 @@ const FormLogin = ({ changePage }: IProps) => {
         size="large"
       >
         <Form.Item
-          name="username"
-          rules={[{ required: true, message: 'Please input your Email or Username!' }]}
+          name="email"
+          rules={[
+            { required: true, message: 'Please input your email!' },
+            { type: 'email', message: 'The input is not valid E-mail!' }
+          ]}
         >
-          <Input prefix={<UserOutlined />} placeholder="Email or Username" />
+          <Input prefix={<UserOutlined />} placeholder="Email" />
         </Form.Item>
 
         <Form.Item

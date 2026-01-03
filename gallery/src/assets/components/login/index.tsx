@@ -2,10 +2,10 @@
 import "react-photo-album/masonry.css";
 import { MasonryPhotoAlbum } from "react-photo-album";
 import styles from './style.module.scss';
-import FormLogin from '../form/form-login';
+import FormLogin from '../../common/form/form-login';
 import { listPhotos } from '@/assets/constants/list-photos';
 import { useState } from 'react';
-import FormRegister from '../form/form-register';
+import FormRegister from '../../common/form/form-register';
 const LoginComponent = () => {
   const photos = listPhotos;
   const [page, setPage] = useState<'login' | 'register'>('login')
