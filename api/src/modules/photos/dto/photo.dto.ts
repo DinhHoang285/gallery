@@ -11,7 +11,7 @@ import {
 
 export class CreatePhotoDto {
   @IsString()
-  @IsNotEmpty()
+  @IsNotEmpty({ message: 'From source is required' })
   fromSource: string;
 
   @IsArray()
