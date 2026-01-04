@@ -57,6 +57,7 @@ export class AuthController {
       email: user.email,
       name: user.name,
       birthdate: user.birthdate,
+      role: user.role, // Add role field
     };
   }
 }

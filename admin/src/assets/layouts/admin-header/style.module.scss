@@ -1,0 +1,52 @@
+.header {
+  height: 70px;
+  background-color: #fff;
+  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 24px;
+  position: fixed;
+  top: 0;
+  left: 250px;
+  right: 0;
+  z-index: 99;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: $primary;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #111;
+  line-height: 1.2;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #666;
+  line-height: 1.2;
+}
+

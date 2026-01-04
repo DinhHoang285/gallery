@@ -1,0 +1,24 @@
+.statsCard {
+  height: 100%;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s;
+
+  &:hover {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
+  }
+
+  :global(.ant-statistic-title) {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+  }
+
+  :global(.ant-statistic-content) {
+    font-size: 32px;
+    font-weight: 600;
+    color: #111;
+  }
+}
+

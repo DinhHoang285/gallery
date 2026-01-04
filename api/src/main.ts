@@ -22,7 +22,11 @@ async function bootstrap() {
 
   // 3. Cấu hình CORS chi tiết hơn
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://your-vercel-domain.vercel.app'],
+    origin: [
+      'http://localhost:3000', // Gallery app
+      'http://localhost:3001', // Admin app
+      'https://your-vercel-domain.vercel.app'
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });

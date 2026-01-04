@@ -1,0 +1,19 @@
+.adminLayout {
+  display: flex;
+  min-height: 100vh;
+  background-color: #f5f5f5;
+}
+
+.contentWrapper {
+  flex: 1;
+  margin-left: 250px;
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContent {
+  flex: 1;
+  margin-top: 70px;
+  padding: 24px;
+}
+
