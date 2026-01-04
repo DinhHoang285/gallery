@@ -1,0 +1,33 @@
+.photosPage {
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .title {
+    font-size: 32px;
+    font-weight: 600;
+    color: #111;
+    margin: 0;
+  }
+}
+
+.tableWrapper {
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modal {
+  :global(.ant-modal-content) {
+    border-radius: 12px;
+  }
+}
+
+.form {
+  margin-top: 24px;
+}
+

@@ -1,6 +1,6 @@
 'use client';
 import { usePathname, useRouter } from 'next/navigation';
-import { LayoutDashboard, FolderTree, LogOut } from 'lucide-react';
+import { LayoutDashboard, FolderTree, Image, LogOut } from 'lucide-react';
 import { authService } from '@/assets/services';
 import { showSuccess } from '@/assets/lib/message';
 import { useUser } from '@/assets/providers/user.provider';
@@ -32,6 +32,11 @@ const AdminSidebar = () => {
       path: '/categories',
       label: 'Categories',
       icon: FolderTree,
+    },
+    {
+      path: '/photos',
+      label: 'Photos',
+      icon: Image,
     },
   ];
 
