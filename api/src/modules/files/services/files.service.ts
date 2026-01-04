@@ -12,6 +12,7 @@ import * as path from 'path';
 @Injectable()
 export class FilesService {
   private readonly uploadDir = path.join(process.cwd(), 'uploads');
+  private readonly protectedDir = path.join(process.cwd(), 'uploads', 'protected');
   private readonly thumbnailDir = path.join(process.cwd(), 'uploads', 'thumbnails');
 
   constructor(
@@ -25,6 +26,9 @@ export class FilesService {
     if (!fs.existsSync(this.uploadDir)) {
       fs.mkdirSync(this.uploadDir, { recursive: true });
     }
+    if (!fs.existsSync(this.protectedDir)) {
+      fs.mkdirSync(this.protectedDir, { recursive: true });
+    }
     if (!fs.existsSync(this.thumbnailDir)) {
       fs.mkdirSync(this.thumbnailDir, { recursive: true });
     }
@@ -34,19 +38,30 @@ export class FilesService {
     file: any,
     name?: string,
     description?: string,
+    isSale?: boolean,
+    price?: number,
   ): Promise<FileDocument> {
     try {
+      // Determine if file should be protected (isSale and price > 0)
+      // Convert to proper types if needed (FormData sends strings)
+      const isSaleBool = isSale === true || (typeof isSale === 'string' && isSale === 'true');
+      const priceNum = typeof price === 'string' ? parseFloat(price) : (price || 0);
+      const isProtected = isSaleBool && !isNaN(priceNum) && priceNum > 0;
+
       // Generate unique filename
       const timestamp = Date.now();
       const randomString = Math.random().toString(36).substring(2, 15);
       const fileExtension = path.extname(file.originalname);
       const fileName = `${timestamp}-${randomString}${fileExtension}`;
-      const filePath = path.join(this.uploadDir, fileName);
+
+      // Choose directory based on isSale and price
+      const targetDir = isProtected ? this.protectedDir : this.uploadDir;
+      const filePath = path.join(targetDir, fileName);
 
       // Save file to disk
       fs.writeFileSync(filePath, file.buffer);
 
-      // Generate thumbnail if it's an image
+      // Generate thumbnail if it's an image (always in thumbnails folder)
       let thumbnailPath: string | undefined;
       if (file.mimetype.startsWith('image/')) {
         thumbnailPath = await this.generateThumbnail(filePath, fileName);

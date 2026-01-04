@@ -74,7 +74,6 @@ const PhotosComponent = () => {
         await photoService.update(editingPhoto._id, data as UpdatePhotoDto);
         showSuccess('Photo updated successfully');
       } else {
-        console.log('data', data);
         await photoService.create(data as CreatePhotoDto);
         showSuccess('Photo created successfully');
       }

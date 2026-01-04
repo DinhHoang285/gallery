@@ -9,6 +9,7 @@ import {
   Body,
   UseGuards,
   Res,
+  Request,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { FilesService } from '../services/files.service';
@@ -28,16 +29,32 @@ export class FilesController {
   @UseInterceptors(FileInterceptor('file'))
   async uploadFile(
     @UploadedFile() file: any,
-    @Body() uploadDto: UploadFileDto,
+    @Body() body: any,
+    @Request() req: any,
   ) {
     if (!file) {
       throw new Error('No file uploaded');
     }
 
+    // Parse form data fields (multipart/form-data sends everything as strings)
+    const name = body.name;
+    const description = body.description;
+
+    // Parse isSale and price from FormData (they come as strings)
+    const isSaleStr = body.isSale;
+    const priceStr = body.price;
+
+    const isSale = isSaleStr === 'true' || isSaleStr === true || isSaleStr === '1';
+    const price = priceStr !== undefined && priceStr !== null && priceStr !== ''
+      ? (typeof priceStr === 'string' ? parseFloat(priceStr) : priceStr)
+      : undefined;
+
     const fileRecord = await this.filesService.uploadFile(
       file,
-      uploadDto.name,
-      uploadDto.description,
+      name,
+      description,
+      isSale,
+      price,
     );
 
     const fileObj = fileRecord.toObject();

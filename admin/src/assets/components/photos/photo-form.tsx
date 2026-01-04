@@ -55,13 +55,22 @@ const PhotoForm = ({ open, photo, categories, onCancel, onSubmit, loading }: Pho
         setUploading(true);
         const uploadedFileIds: string[] = [];
 
+        // Get isSale and price from form values for file upload
+        // Use explicit checks to handle false and 0 values
+        const isSale = values.isSale === true || values.isSale === 'true';
+        const price = values.price !== undefined && values.price !== null
+          ? (typeof values.price === 'number' ? values.price : parseFloat(values.price) || 0)
+          : 0;
+
         // Upload each file
         for (const fileItem of fileList) {
           try {
             const uploadResponse = await fileService.uploadFile(
               fileItem.originFileObj || fileItem,
               fileItem.name,
-              fileItem.description
+              fileItem.description,
+              isSale,
+              price
             );
             uploadedFileIds.push(uploadResponse.file.id);
           } catch (error: any) {

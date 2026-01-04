@@ -17,6 +17,8 @@ export interface File {
 export interface UploadFileDto {
   name?: string;
   description?: string;
+  isSale?: boolean;
+  price?: number;
 }
 
 export interface UploadFileResponse {
@@ -39,6 +41,8 @@ class FileService extends APIRequest {
     file: File | Blob,
     name?: string,
     description?: string,
+    isSale?: boolean,
+    price?: number,
   ): Promise<UploadFileResponse> {
     try {
       const formData = new FormData();
@@ -49,6 +53,9 @@ class FileService extends APIRequest {
       if (description) {
         formData.append('description', description);
       }
+      // Always append isSale and price (even if false or 0)
+      formData.append('isSale', (isSale === true).toString());
+      formData.append('price', (price !== undefined ? price : 0).toString());
 
       const baseApiEndpoint = this.getBaseApiEndpoint();
       const token = this.getToken();
