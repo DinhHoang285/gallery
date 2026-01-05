@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, IsOptional, MinLength } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, MinLength, IsArray } from 'class-validator';
 
 export class CreateCategoryDto {
   @IsString()
@@ -9,6 +9,11 @@ export class CreateCategoryDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsArray()
+  @IsOptional()
+  @IsString({ each: true })
+  fileIds?: string[];
 }
 
 export class UpdateCategoryDto {
@@ -20,5 +25,10 @@ export class UpdateCategoryDto {
   @IsString()
   @IsOptional()
   description?: string;
+
+  @IsArray()
+  @IsOptional()
+  @IsString({ each: true })
+  fileIds?: string[];
 }
 

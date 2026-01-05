@@ -10,6 +10,9 @@ export class Category {
 
   @Prop()
   description?: string;
+
+  @Prop({ type: [String], default: [] })
+  fileIds?: string[];
 }
 
 export const CategorySchema = SchemaFactory.createForClass(Category);

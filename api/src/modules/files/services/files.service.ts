@@ -40,6 +40,7 @@ export class FilesService {
     description?: string,
     isSale?: boolean,
     price?: number,
+    fileType?: string,
   ): Promise<FileDocument> {
     try {
       // Determine if file should be protected (isSale and price > 0)
@@ -77,6 +78,7 @@ export class FilesService {
         size: file.size,
         thumbnail: thumbnailPath,
         originalName: file.originalname,
+        fileType: fileType,
       });
 
       return fileRecord;

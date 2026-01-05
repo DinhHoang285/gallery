@@ -4,6 +4,7 @@ export interface Category {
   _id: string;
   name: string;
   description?: string;
+  fileIds?: string[];
   createdAt?: string;
   updatedAt?: string;
 }
@@ -11,11 +12,13 @@ export interface Category {
 export interface CreateCategoryDto {
   name: string;
   description?: string;
+  fileIds?: string[];
 }
 
 export interface UpdateCategoryDto {
   name?: string;
   description?: string;
+  fileIds?: string[];
 }
 
 class CategoryService extends APIRequest {

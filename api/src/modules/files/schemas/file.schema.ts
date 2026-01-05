@@ -28,6 +28,9 @@ export class File {
 
   @Prop()
   originalName?: string; // Original filename before upload
+
+  @Prop()
+  fileType?: string; // Type of file usage: 'category', 'photo', etc.
 }
 
 export const FileSchema = SchemaFactory.createForClass(File);

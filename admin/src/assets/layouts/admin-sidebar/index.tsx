@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { LayoutDashboard, FolderTree, Image, LogOut } from 'lucide-react';
 import { authService } from '@/assets/services';
@@ -50,14 +51,14 @@ const AdminSidebar = () => {
           const Icon = item.icon;
           const isActive = pathname === item.path;
           return (
-            <a
+            <Link
               key={item.path}
               href={item.path}
               className={`${styles.navItem} ${isActive ? styles.active : ''}`}
             >
               <Icon size={20} />
               <span>{item.label}</span>
-            </a>
+            </Link>
           );
         })}
       </nav>

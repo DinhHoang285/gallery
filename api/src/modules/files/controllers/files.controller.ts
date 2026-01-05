@@ -39,6 +39,7 @@ export class FilesController {
     // Parse form data fields (multipart/form-data sends everything as strings)
     const name = body.name;
     const description = body.description;
+    const fileType = body.fileType;
 
     // Parse isSale and price from FormData (they come as strings)
     const isSaleStr = body.isSale;
@@ -55,6 +56,7 @@ export class FilesController {
       description,
       isSale,
       price,
+      fileType,
     );
 
     const fileObj = fileRecord.toObject();

@@ -28,5 +28,9 @@ export class UploadFileDto {
   @IsOptional()
   @Min(0)
   price?: number;
+
+  @IsString()
+  @IsOptional()
+  fileType?: string;
 }
 
