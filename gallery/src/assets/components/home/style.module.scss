@@ -1,0 +1,83 @@
+.homeContainer {
+  width: 100%;
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    padding: 20px;
+  }
+}
+
+// Pinterest-style Masonry Layout
+// Sử dụng CSS Columns để tạo hiệu ứng so le tự nhiên
+.masonryGrid {
+  column-count: var(--columns, 3);
+  column-gap: 20px;
+
+  @media (max-width: 768px) {
+    column-gap: 16px;
+  }
+}
+
+.pinCard {
+  border-radius: 16px;
+  overflow: hidden;
+  cursor: pointer;
+  display: inline-block; // Quan trọng cho CSS Columns
+  width: 100%; // Chiếm toàn bộ chiều rộng cột
+  margin-bottom: 20px; // Khoảng cách giữa các card trong cùng cột
+  break-inside: avoid; // Ngăn card bị chia cắt giữa các cột
+  page-break-inside: avoid; // Fallback cho trình duyệt cũ
+  -webkit-column-break-inside: avoid; // Fallback cho Safari
+  transition: transform 0.2s ease, opacity 0.2s ease;
+
+  @media (max-width: 768px) {
+    margin-bottom: 16px;
+    border-radius: 12px;
+  }
+
+  &:hover {
+    transform: scale(1.02);
+    opacity: 0.9;
+  }
+}
+
+.imageWrapper {
+  width: 100%;
+  overflow: hidden;
+  background: #f0f0f0;
+  display: block;
+  position: relative;
+  border-radius: 16px;
+
+  @media (max-width: 768px) {
+    border-radius: 12px;
+  }
+}
+
+.image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 16px;
+
+  @media (max-width: 768px) {
+    border-radius: 12px;
+  }
+}
+
+.loadMoreTrigger {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.loading {
+  color: #666;
+  font-size: 14px;
+}
+

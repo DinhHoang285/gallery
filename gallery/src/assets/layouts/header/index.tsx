@@ -14,6 +14,7 @@ import { useMainThemeLayout } from '@/assets/providers/main-layout.provider';
 const Header = () => {
   const { user, refreshUser } = useUser();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
   const { setState } = useMainThemeLayout();
@@ -34,6 +35,20 @@ const Header = () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [isDropdownOpen]);
+
+  // Handle scroll to show/hide box-shadow
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      setIsScrolled(scrollY > 0);
+    };
+
+    // Check initial scroll position
+    handleScroll();
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -61,7 +76,7 @@ const Header = () => {
   };
 
   return (
-    <div className={styles.header}>
+    <div className={`${styles.header} ${isScrolled ? styles.headerScrolled : ''}`}>
       <div className={styles['box-search']}>
         <Input
           prefix={<SearchOutlined />}
