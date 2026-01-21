@@ -1,9 +1,10 @@
 'use client';
+import ExploreCategory from './categorys';
 import styles from './style.module.scss';
 
 const ExploreComponent = () => {
   return (<div>
-    <h1>Explore</h1>
+    <ExploreCategory />
   </div>);
 }
 

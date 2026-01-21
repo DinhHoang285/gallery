@@ -1,10 +1,14 @@
+'use client';
 import React from 'react';
 import {
   Home, Compass, LayoutGrid, Plus, Bell, MessageCircleMore, Settings
 } from 'lucide-react';
 import styles from './style.module.scss';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const Navigation = () => {
+  const pathname = usePathname();
   return (
     <nav className={styles.sidebar}>
       <div className={styles['logo-container']}>
@@ -14,19 +18,18 @@ const Navigation = () => {
       </div>
 
       <div className={styles['menu-items']}>
-        {/* Class active được kết hợp bằng template string */}
-        <div className={`${styles['nav-item']} ${styles.active}`}><Home size={28} /></div>
-        <div className={styles['nav-item']}><Compass size={28} /></div>
-        <div className={styles['nav-item']}><LayoutGrid size={28} /></div>
-        <div className={styles['nav-item']}><Plus size={28} /></div>
-        <div className={styles['nav-item']}><Bell size={28} /></div>
-        <div className={styles['nav-item']}><MessageCircleMore size={28} /></div>
+        <Link href="/home" className={`${styles['nav-item']} ${pathname === '/home' ? styles.active : ''}`}><Home size={28} /></Link>
+        <Link href="/explore" className={`${styles['nav-item']} ${pathname === '/explore' ? styles.active : ''}`}><Compass size={28} /></Link>
+        <Link href="/collections" className={`${styles['nav-item']} ${pathname === '/collections' ? styles.active : ''}`}><LayoutGrid size={28} /></Link>
+        <Link href="/create" className={`${styles['nav-item']} ${pathname === '/create' ? styles.active : ''}`}><Plus size={28} /></Link>
+        <Link href="/notifications" className={`${styles['nav-item']} ${pathname === '/notifications' ? styles.active : ''}`}><Bell size={28} /></Link>
+        <Link href="/messages" className={`${styles['nav-item']} ${pathname === '/messages' ? styles.active : ''}`}><MessageCircleMore size={28} /></Link>
       </div>
 
       <div className={styles['settings-container']}>
         <div className={styles['nav-item']}><Settings size={28} /></div>
       </div>
-    </nav>
+    </nav >
   );
 };
 

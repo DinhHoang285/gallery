@@ -49,7 +49,7 @@ const fakeData: ExploreItem[] = [
   },
 ];
 
-const ExploreHome = () => {
+const ExploreCategory = () => {
   const [showAll, setShowAll] = useState(false);
   const displayedItems = showAll ? fakeData.slice(0, 6) : fakeData.slice(0, 3);
   const hasMore = fakeData.length > 3;
@@ -86,4 +86,4 @@ const ExploreHome = () => {
   );
 }
 
-export default ExploreHome;
+export default ExploreCategory;
